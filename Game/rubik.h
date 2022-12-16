@@ -2,14 +2,12 @@
 #define GAME_RUBIK_H
 
 
-#include <vector>
-#include "block.h"
 #include "game.h"
-
+#include "block.h"
 using namespace std;
 class rubik {
 public:
-    rubik(int i, Game* scene);
+    rubik(int i, Scene* scene);
 private:
     vector<vector<block>> x;
     vector<vector<block>> y;

@@ -3,12 +3,14 @@
 
 
 #include <tuple>
+#include "glm/vec3.hpp"
+#include "scene.h"
 
 class block {
 public:
-    explicit block(int index, std::tuple<int, int, int> pos);
+    block(int index, glm::vec3 pos, Scene* scene);
     int indx;
-    std::tuple<int, int, int> position;
+    glm::vec3 position;
 };
 
 

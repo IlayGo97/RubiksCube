@@ -1,10 +1,11 @@
 #pragma once
 #include "scene.h"
+#include "rubik.h"
 
 class Game : public Scene
 {
 public:
-	
+
 	Game();
 	Game(float angle,float relationWH,float near, float far);
 	void Init();

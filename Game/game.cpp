@@ -34,7 +34,7 @@ void Game::Init()
 //	pickedShape = 0;
 //
 //	SetShapeTex(0,0);
-    cube = new rubik(3, this);
+    rubik* cube = new rubik(3, this);
 	MoveCamera(0,zTranslate,10);
 	pickedShape = -1;
 	

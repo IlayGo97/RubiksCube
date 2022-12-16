@@ -3,9 +3,7 @@
 #include "shape.h"
 #include "camera.h"
 #include "VertexArray.hpp"
-#include "../Game/rubik.h"
 #include <vector>
-
 
 class Scene : public MovableGLM
 {
@@ -80,7 +78,6 @@ protected:
 	std::vector<Texture*> textures;
 	
 	int pickedShape;
-	rubik* cube;
 	bool isActive;
 };
 
