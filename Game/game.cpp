@@ -22,18 +22,19 @@ Game::Game(float angle ,float relationWH, float near1, float far1) : Scene(angle
 }
 
 void Game::Init()
-{		
+{
 
-	AddShader("../res/shaders/pickingShader");	
-	AddShader("../res/shaders/basicShader");
-	
-	AddTexture("../res/textures/box0.bmp",false);
-
+//	AddShader("../res/shaders/pickingShader");
+//	AddShader("../res/shaders/basicShader");
+//
+//	AddTexture("../res/textures/box0.bmp",false);
+//
 	AddShape(Plane,-1,TRIANGLES);
-	
-	pickedShape = 0;
-	
-	SetShapeTex(0,0);
+//
+//	pickedShape = 0;
+//
+//	SetShapeTex(0,0);
+    cube = new rubik(3, this);
 	MoveCamera(0,zTranslate,10);
 	pickedShape = -1;
 	

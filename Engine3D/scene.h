@@ -3,6 +3,7 @@
 #include "shape.h"
 #include "camera.h"
 #include "VertexArray.hpp"
+#include "../Game/rubik.h"
 #include <vector>
 
 
@@ -79,7 +80,7 @@ protected:
 	std::vector<Texture*> textures;
 	
 	int pickedShape;
-	
+	rubik* cube;
 	bool isActive;
 };
 

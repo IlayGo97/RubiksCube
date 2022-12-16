@@ -28,7 +28,7 @@ add_library(Display ${DISPLAY})
 add_library(Engine ${ENGINE})
 
 
-add_executable(${PROJ_NAME} ${GAME})
+add_executable(${PROJ_NAME} ${GAME} Game/rubik.cpp Game/rubik.h Game/block.cpp Game/block.h)
 
 target_link_libraries(${PROJ_NAME} Engine Display glfw glad)
 
