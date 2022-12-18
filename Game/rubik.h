@@ -4,14 +4,15 @@
 
 #include "game.h"
 #include "block.h"
+#include <map>
 using namespace std;
 class rubik {
 public:
     rubik(int i, Scene* scene);
 private:
-    vector<vector<block>> x;
-    vector<vector<block>> y;
-    vector<vector<block>> z;
+    map<double, vector<block*>> x;
+    map<double, vector<block*>> y;
+    map<double, vector<block*>> z;
 };
 
 

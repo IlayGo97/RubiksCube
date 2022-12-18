@@ -24,18 +24,24 @@ Game::Game(float angle ,float relationWH, float near1, float far1) : Scene(angle
 void Game::Init()
 {
 
-//	AddShader("../res/shaders/pickingShader");
-//	AddShader("../res/shaders/basicShader");
+	AddShader("../res/shaders/pickingShader");
+	AddShader("../res/shaders/basicShader");
 //
-//	AddTexture("../res/textures/box0.bmp",false);
-//
-	AddShape(Plane,-1,TRIANGLES);
-//
-//	pickedShape = 0;
-//
-//	SetShapeTex(0,0);
-    rubik* cube = new rubik(3, this);
-	MoveCamera(0,zTranslate,10);
+	AddTexture("../res/textures/box0.bmp",false);
+	AddTexture("../res/textures/plane.png",false);
+    int indx = 0;
+    for(int i = -1; i <= 1; i ++ )
+        for(int j = -1; j <= 1; j ++ )
+            for(int k = -1; k <= 1; k ++ ){
+                AddShape(Cube, -1, TRIANGLES);
+                SetShapeTex(indx, 1);
+                shapes[indx]->MyScale(glm::vec3(0.5,0.5,0.5));
+                shapes[indx]->MyTranslate(glm::vec3(i,j,k), 0);
+                indx ++;
+            }
+//    rubik* r = new rubik(3, this);
+	pickedShape = 0;
+    MoveCamera(0,zTranslate,10);
 	pickedShape = -1;
 	
 	//ReadPixel(); //uncomment when you are reading from the z-buffer

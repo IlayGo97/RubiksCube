@@ -59,20 +59,19 @@ public:
 	void MouseProccessing(int button);
 	bool inline IsActive() const { return isActive;} 
 	
-	inline void SetShapeTex(int shpIndx,int texIndx){shapes[shpIndx]->SetTexture(texIndx);} 
-	inline void SetShapeShader(int shpIndx,int shdrIndx){shapes[shpIndx]->SetShader(shdrIndx);} 
-	
-private:	
-	
-	std::vector<Camera*> cameras; 
+	inline void SetShapeTex(int shpIndx,int texIndx){shapes[shpIndx]->SetTexture(texIndx);}
+	inline void SetShapeShader(int shpIndx,int shdrIndx){shapes[shpIndx]->SetShader(shdrIndx);}
+    std::vector<Shape*> shapes;
 
-	float depth;
-	int xold, yold,xrel, yrel;
-	int cameraIndx;
+private:
+
+	std::vector<Camera*> cameras;
+    float depth;
+    int xold, yold,xrel, yrel;
+    int cameraIndx;
+
 	void Clear(float r, float g, float b, float a);
-
 protected:
-	std::vector<Shape*> shapes;
 	std::vector<Shader*> shaders;
 	std::vector<int> chainParents;
 	std::vector<Texture*> textures;
