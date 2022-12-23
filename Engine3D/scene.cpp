@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "glad/include/glad/glad.h"
+#include "../Game/block.h"
 #include <iostream>
 
 	static void printMat(const glm::mat4 mat)
@@ -264,6 +265,13 @@
 			delete tex;
 		}
 
+}
+
+void Scene::AddBlock(glm::vec3 pos) {
+    chainParents.push_back(-1);
+    AddTexture("../res/textures/plane.png",false);
+    shapes.push_back(new block(0, pos, Cube, TRIANGLES));
+    SetShapeTex(shapes.size() - 1, textures.size() - 1);
 }
 
 
