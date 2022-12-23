@@ -18,7 +18,7 @@ static void printMat(const glm::mat4 mat)
 		std::cout<<std::endl;
 	}
 }
-rubik * rub;
+
 Game::Game() : Scene()
 {
 }
@@ -33,9 +33,6 @@ void Game::Init()
 	pickedShape = 0;
     MoveCamera(0,zTranslate,10);
 	pickedShape = -1;
-//    AddBlock(glm::vec3(0.f, 0.f, 1.f));
-//    int index = AddBlock(glm::vec3(1.f, 1.f, 1.f));
-//    b1 = (block *)shapes[index];
 	//ReadPixel(); //uncomment when you are reading from the z-buffer
     rub = new rubik(3, this);
     rub->setClockDirection(CLOCKWISE_ROTATE);
@@ -68,6 +65,15 @@ void Game::WhenTranslate()
 
 void Game::keyListener(int key) {
     switch(key){
+        case GLFW_KEY_SPACE:
+            rub->flip_rotation();
+            break;
+        case GLFW_KEY_Z:
+            rub->halve_rotation_degree();
+            break;
+        case GLFW_KEY_A:
+            rub->double_rotation_degree();
+            break;
         case GLFW_KEY_R:
             rub->right_wall_rotation();
             break;

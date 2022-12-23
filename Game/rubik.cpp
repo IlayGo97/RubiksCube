@@ -1,10 +1,17 @@
 #include <iostream>
 #include "rubik.h"
 
-rubik::rubik(int row, Scene* scene): max_row(row / 2), min_row(-row / 2) {
-    for (int i = -(row / 2); i <= row / 2; i++) {
-        for (int j = -(row / 2); j <= row / 2; j++) {
-            for (int k = -(row / 2); k <= row / 2; k++) {
+rubik::rubik(int row, Scene* scene) {
+    if(row % 2 == 1){
+        max_row = row / 2;
+        min_row = - row / 2;
+    } else {
+        max_row = row / 2;
+        min_row = - row / 2 + 1;
+    }
+    for (int i = min_row; i <= max_row; i++) {
+        for (int j = min_row; j <= max_row; j++) {
+            for (int k = min_row; k <= max_row; k++) {
                 int index = scene->AddBlock(glm::vec3(i,j,k));
                 blocks.push_back(dynamic_cast<block *>(scene->shapes[index]));
             }
@@ -24,7 +31,7 @@ bool check_relation(glm::vec3 point1, glm::vec3 axis){
         pos = 1;
     }
     else pos = 2;
-    return point1[pos] == axis[pos];
+    return point1[pos] - 0.1f <= axis[pos] && axis[pos] <= point1[pos] + 0.1f;
 }
 
 void rubik::some_wall_rotation(glm::vec3 axis) {
@@ -53,4 +60,12 @@ void rubik::up_wall_rotation() {
 
 void rubik::down_wall_rotation() {
     some_wall_rotation(glm::vec3(0.f,min_row,0.f));
+}
+
+void rubik::double_rotation_degree() {
+    rotation_degree = std::min(rotation_degree * 2.f, 180.f);
+}
+
+void rubik::halve_rotation_degree() {
+    rotation_degree = std::max(rotation_degree / 2.f, 1.f);
 }

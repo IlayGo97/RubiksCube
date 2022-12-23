@@ -2,7 +2,7 @@
 #define GAME_RUBIK_H
 
 
-#include "game.h"
+#include "scene.h"
 #include "block.h"
 using namespace std;
 class rubik {
@@ -13,7 +13,8 @@ public:
     void up_wall_rotation();
     void down_wall_rotation();
 
-
+    void double_rotation_degree();
+    void halve_rotation_degree();
     void setClockDirection(int clockDirection);
     void flip_rotation();
 
