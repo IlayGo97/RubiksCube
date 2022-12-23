@@ -74,6 +74,12 @@ void Game::keyListener(int key) {
         case GLFW_KEY_L:
             rub->left_wall_rotation();
             break;
+        case GLFW_KEY_U:
+            rub->up_wall_rotation();
+            break;
+        case GLFW_KEY_D:
+            rub->down_wall_rotation();
+            break;
     }
 }
 

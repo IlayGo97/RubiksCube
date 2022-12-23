@@ -20,18 +20,26 @@ bool check_relation(glm::vec3 point1, glm::vec3 axis){
     int pos;
     if(axis.x != 0)
         pos = 0;
-    else if(axis.y != 0)
+    else if(axis.y != 0) {
         pos = 1;
+    }
     else pos = 2;
-    return (int)point1[pos] == (int)axis[pos];
+    return point1[pos] == axis[pos];
 }
 
 void rubik::some_wall_rotation(glm::vec3 axis) {
     for(block* b : blocks){
-        if(check_relation(axis, b->get_position())){
+        if(check_relation(b->get_position(), axis)){
+            std::cout << "hi \n";
+            std::cout << axis.y << "\n";
+            std::cout << b->get_position().y << "\n";
             b->rotate_around_axis(axis, rotation_degree, clock_direction);
         }
     }
+}
+
+void rubik::flip_rotation() {
+    rotation_degree = rotation_degree * -1;
 }
 
 void rubik::right_wall_rotation() {
@@ -42,6 +50,10 @@ void rubik::left_wall_rotation() {
     some_wall_rotation(glm::vec3(min_row,0.f,0.f));
 }
 
-void rubik::setRotationDegree(float rotationDegree) {
-    rotation_degree = rotationDegree;
+void rubik::up_wall_rotation() {
+    some_wall_rotation(glm::vec3(0.f,max_row,0.f));
+}
+
+void rubik::down_wall_rotation() {
+    some_wall_rotation(glm::vec3(0.f,min_row,0.f));
 }

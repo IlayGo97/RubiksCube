@@ -10,10 +10,12 @@ public:
     rubik(int i, Scene* scene);
     void right_wall_rotation();
     void left_wall_rotation();
+    void up_wall_rotation();
+    void down_wall_rotation();
+
 
     void setClockDirection(int clockDirection);
-
-    void setRotationDegree(float rotationDegree);
+    void flip_rotation();
 
 private:
     std::vector<block*> blocks;
