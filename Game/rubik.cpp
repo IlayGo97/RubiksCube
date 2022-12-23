@@ -6,12 +6,12 @@ rubik::rubik(int row, Scene* scene) {
         max_row = row / 2;
         min_row = - row / 2;
     } else {
-        max_row = row / 2;
-        min_row = - row / 2 + 1;
+        max_row = row / 2 - 0.5f;
+        min_row = - row / 2 + 0.5f;
     }
-    for (int i = min_row; i <= max_row; i++) {
-        for (int j = min_row; j <= max_row; j++) {
-            for (int k = min_row; k <= max_row; k++) {
+    for (float i = min_row; i <= max_row; i++) {
+        for (float j = min_row; j <= max_row; j++) {
+            for (float k = min_row; k <= max_row; k++) {
                 int index = scene->AddBlock(glm::vec3(i,j,k));
                 blocks.push_back(dynamic_cast<block *>(scene->shapes[index]));
             }

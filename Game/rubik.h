@@ -20,8 +20,8 @@ public:
 
 private:
     std::vector<block*> blocks;
-    int max_row;
-    int min_row;
+    float max_row;
+    float min_row;
     int clock_direction = 1;
     void some_wall_rotation(glm::vec3 axis);
     float rotation_degree = 90.f;
