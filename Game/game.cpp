@@ -4,6 +4,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <ratio>
 #include <thread>
+#define CLOCKWISE_ROTATE -1
+#define COUNTERCLOCKWISE_ROTATE 1
+
 
 static void printMat(const glm::mat4 mat)
 {
@@ -15,7 +18,7 @@ static void printMat(const glm::mat4 mat)
 		std::cout<<std::endl;
 	}
 }
-
+rubik * rub;
 Game::Game() : Scene()
 {
 }
@@ -23,19 +26,19 @@ Game::Game() : Scene()
 Game::Game(float angle ,float relationWH, float near1, float far1) : Scene(angle,relationWH,near1,far1)
 { 	
 }
-block * b1;
 void Game::Init()
 {
-
 	AddShader("../res/shaders/pickingShader");
 	AddShader("../res/shaders/basicShader");
 	pickedShape = 0;
     MoveCamera(0,zTranslate,10);
 	pickedShape = -1;
-    AddBlock(glm::vec3(0.f, 0.f, 1.f));
-    int index = AddBlock(glm::vec3(1.f, 1.f, 1.f));
-    b1 = (block *)shapes[index];
+//    AddBlock(glm::vec3(0.f, 0.f, 1.f));
+//    int index = AddBlock(glm::vec3(1.f, 1.f, 1.f));
+//    b1 = (block *)shapes[index];
 	//ReadPixel(); //uncomment when you are reading from the z-buffer
+    rub = new rubik(3, this);
+    rub->setClockDirection(CLOCKWISE_ROTATE);
 }
 
 void Game::Update(const glm::mat4 &MVP,const glm::mat4 &Model,const int  shaderIndx)
@@ -65,9 +68,12 @@ void Game::WhenTranslate()
 
 void Game::keyListener(int key) {
     switch(key){
-        case GLFW_KEY_A:
-            b1->rotate_around_axis_clockwise(glm::vec3(0.f, 0.f, 1.f));
-        break;
+        case GLFW_KEY_R:
+            rub->right_wall_rotation();
+            break;
+        case GLFW_KEY_L:
+            rub->left_wall_rotation();
+            break;
     }
 }
 

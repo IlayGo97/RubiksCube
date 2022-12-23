@@ -12,6 +12,7 @@ struct rotation_animation {
     float degree;
     glm::vec3 axis;
     Scene* scene;
+    glm::vec3 final_point;
 };
 
 class block : public Shape{
@@ -21,13 +22,12 @@ public:
 
     glm::vec3 get_position();
     void set_position(glm::vec3 npos);
-    void rotate_around_axis_clockwise(glm::vec3 axis);
+    glm::vec3 rotate_around_axis(glm::vec3 axis, float degree, int clockwise = 1);
     void continue_rotation_animation();
 private:
     int indx;
 public:
     int getIndx() const;
-
     void Draw(const std::vector<Shader *> shaders, const std::vector<Texture *> textures, bool isPicking) override;
 
 private:

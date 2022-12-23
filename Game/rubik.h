@@ -4,15 +4,24 @@
 
 #include "game.h"
 #include "block.h"
-#include <map>
 using namespace std;
 class rubik {
 public:
     rubik(int i, Scene* scene);
+    void right_wall_rotation();
+    void left_wall_rotation();
+
+    void setClockDirection(int clockDirection);
+
+    void setRotationDegree(float rotationDegree);
+
 private:
-    map<double, vector<block*>> x;
-    map<double, vector<block*>> y;
-    map<double, vector<block*>> z;
+    std::vector<block*> blocks;
+    int max_row;
+    int min_row;
+    int clock_direction = 1;
+    void some_wall_rotation(glm::vec3 axis);
+    float rotation_degree = 90.f;
 };
 
 

@@ -16,11 +16,16 @@ glm::vec3 block::get_position() {
     return position;
 }
 
-void block::rotate_around_axis_clockwise(glm::vec3 axis) {
+glm::vec3 block::rotate_around_axis(glm::vec3 axis, float degree, int clockwise) {
+    if (axis == position | anim.isAnimation)
+        return position;
     anim.isAnimation = true;
-    anim.degree = 90.f;
+//    degree = 90.f;
+    anim.degree = degree * clockwise;
     anim.curr_Degree = 0.f;
     anim.axis = axis;
+    glm::mat4 rotation_matrix = glm::rotate(glm::mat4(1.0f), anim.degree, anim.axis);
+    return glm::vec3(rotation_matrix * glm::vec4(get_position(),1.0f));
 }
 
 void block::set_position(glm::vec3 npos) {
@@ -42,7 +47,7 @@ void block::continue_rotation_animation() {
     MyRotate(delta_degree, anim.axis,0);
     set_position(new_point);
     anim.curr_Degree += delta_degree;
-    anim.isAnimation = anim.curr_Degree <= anim.degree;
+    anim.isAnimation = std::abs(anim.curr_Degree) <= std::abs(anim.degree);
 }
 
 void block::Draw(const std::vector<Shader *> shaders, const std::vector<Texture *> textures, bool isPicking) {
