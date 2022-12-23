@@ -50,6 +50,7 @@ void block::continue_rotation_animation() {
     anim.isAnimation = std::abs(anim.curr_Degree) <= std::abs(anim.degree);
     if(!anim.isAnimation){
         position = glm::vec3(std::round(position.x), std::round(position.y), std::round(position.z));
+        MyTranslate(position - get_position(), 0); // rounding up the location
     }
 }
 

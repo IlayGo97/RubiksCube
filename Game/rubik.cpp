@@ -30,9 +30,6 @@ bool check_relation(glm::vec3 point1, glm::vec3 axis){
 void rubik::some_wall_rotation(glm::vec3 axis) {
     for(block* b : blocks){
         if(check_relation(b->get_position(), axis)){
-            std::cout << "hi \n";
-            std::cout << axis.y << "\n";
-            std::cout << b->get_position().y << "\n";
             b->rotate_around_axis(axis, rotation_degree, clock_direction);
         }
     }
