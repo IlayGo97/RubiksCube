@@ -267,11 +267,16 @@
 
 }
 
-void Scene::AddBlock(glm::vec3 pos) {
+int Scene::AddBlock(glm::vec3 pos) {
     chainParents.push_back(-1);
     AddTexture("../res/textures/plane.png",false);
     shapes.push_back(new block(0, pos, Cube, TRIANGLES));
     SetShapeTex(shapes.size() - 1, textures.size() - 1);
+    return shapes.size() - 1;
+}
+
+void Scene::keyListener(int key) {
+
 }
 
 

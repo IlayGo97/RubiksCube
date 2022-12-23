@@ -15,5 +15,7 @@ public:
 	void WhenTranslate();
 	void Motion();
 	~Game(void);
+
+    void keyListener(int key) override;
 };
 

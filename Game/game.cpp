@@ -1,4 +1,5 @@
 #include "game.h"
+#include "GLFW/glfw3.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <ratio>
@@ -22,7 +23,7 @@ Game::Game() : Scene()
 Game::Game(float angle ,float relationWH, float near1, float far1) : Scene(angle,relationWH,near1,far1)
 { 	
 }
-
+block * b1;
 void Game::Init()
 {
 
@@ -31,8 +32,9 @@ void Game::Init()
 	pickedShape = 0;
     MoveCamera(0,zTranslate,10);
 	pickedShape = -1;
-    AddBlock(glm::vec3(0.f, 0.f, 0.f));
-    AddBlock(glm::vec3(1.f, 1.f, 0.f));
+    AddBlock(glm::vec3(0.f, 0.f, 1.f));
+    int index = AddBlock(glm::vec3(1.f, 1.f, 1.f));
+    b1 = (block *)shapes[index];
 	//ReadPixel(); //uncomment when you are reading from the z-buffer
 }
 
@@ -59,6 +61,14 @@ void Game::WhenRotate()
 
 void Game::WhenTranslate()
 {
+}
+
+void Game::keyListener(int key) {
+    switch(key){
+        case GLFW_KEY_A:
+            b1->rotate_around_axis_clockwise(glm::vec3(0.f, 0.f, 1.f));
+        break;
+    }
 }
 
 void Game::Motion()

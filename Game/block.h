@@ -7,9 +7,6 @@
 #include "scene.h"
 
 struct rotation_animation {
-    rotation_animation(){
-
-    }
     bool isAnimation;
     float curr_Degree;
     float degree;
@@ -19,15 +16,19 @@ struct rotation_animation {
 
 class block : public Shape{
 public:
-    block(int index, glm::vec3 pos, Scene::shape shapes, Scene::modes modes);
+
+    block(int i, glm::vec3 tvec31, Scene::shape shape1, Scene::modes modes1);
+
     glm::vec3 get_position();
     void set_position(glm::vec3 npos);
-    void rotate_around_axis_clockwise(Scene* scene, glm::vec3 axis);
+    void rotate_around_axis_clockwise(glm::vec3 axis);
     void continue_rotation_animation();
 private:
     int indx;
 public:
     int getIndx() const;
+
+    void Draw(const std::vector<Shader *> shaders, const std::vector<Texture *> textures, bool isPicking) override;
 
 private:
     glm::vec3 position;

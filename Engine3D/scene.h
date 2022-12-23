@@ -19,7 +19,7 @@ public:
 	Scene(float angle,float relationWH,float near, float far);
 	
 	void AddShapeFromFile(const std::string& fileName,int parent,unsigned int mode);
-	void AddBlock(glm::vec3 pos);
+    int AddBlock(glm::vec3 pos);
 	virtual void AddShape(int type,int parent,unsigned int mode);
 	void AddShapeCopy(int indx,int parent,unsigned int mode);
 	
@@ -55,7 +55,7 @@ public:
 	inline void Deactivate() {isActive = false;}
 	void HideShape(int shpIndx);
 	void UnhideShape(int shpIndx);
-
+    virtual void keyListener(int key);
 	void UpdatePosition(float xpos, float ypos);
 	void MouseProccessing(int button);
 	bool inline IsActive() const { return isActive;} 

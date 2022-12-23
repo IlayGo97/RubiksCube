@@ -27,6 +27,7 @@
 
 		if(action == GLFW_PRESS || action == GLFW_REPEAT)
 		{
+            scn->keyListener(key);
 			switch (key)
 			{
 				case GLFW_KEY_ESCAPE:			
