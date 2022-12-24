@@ -99,3 +99,7 @@ void Game::Motion()
 Game::~Game(void)
 {
 }
+
+void Game::scrollCallback(double xoffset, double yoffset) {
+    MoveCamera(0,zTranslate,yoffset * -1);
+}

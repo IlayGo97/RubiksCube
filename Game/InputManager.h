@@ -17,8 +17,7 @@
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	{
 		Game *scn = (Game*)glfwGetWindowUserPointer(window);
-		scn->MyTranslate(glm::vec3(0,0,xoffset),0);
-		
+        scn->scrollCallback(xoffset, yoffset);
 	}
 	
 	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -32,12 +31,6 @@
 			{
 				case GLFW_KEY_ESCAPE:			
 					glfwSetWindowShouldClose(window,GLFW_TRUE);
-				break;
-				case GLFW_KEY_SPACE:
-					if(scn->IsActive())
-						scn->Deactivate();
-					else
-						scn->Activate();
 				break;
 
 				case GLFW_KEY_UP:

@@ -16,6 +16,7 @@ public:
 	void Motion();
 	~Game(void);
     void keyListener(int key) override;
+    void scrollCallback(double xoffset, double yoffset);
     rubik* rub;
 
 };
