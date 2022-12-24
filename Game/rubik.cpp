@@ -35,6 +35,11 @@ bool check_relation(glm::vec3 point1, glm::vec3 axis){
 }
 
 void rubik::some_wall_rotation(glm::vec3 axis) {
+    for(block* b : blocks) { // to avoid 2 rotations at the same time so game doesn't break :(
+        if(b->is_animation_going()){
+            return;
+        }
+    }
     for(block* b : blocks){
         if(check_relation(b->get_position(), axis)){
             b->rotate_around_axis(axis, rotation_degree, clock_direction);
@@ -60,6 +65,14 @@ void rubik::up_wall_rotation() {
 
 void rubik::down_wall_rotation() {
     some_wall_rotation(glm::vec3(0.f,min_row,0.f));
+}
+
+void rubik::back_wall_rotation() {
+    some_wall_rotation(glm::vec3(0.f,0.f,min_row));
+}
+
+void rubik::front_wall_rotation() {
+    some_wall_rotation(glm::vec3(0.f,0.f,max_row));
 }
 
 void rubik::double_rotation_degree() {

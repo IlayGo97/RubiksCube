@@ -34,7 +34,7 @@ void Game::Init()
     MoveCamera(0,zTranslate,10);
 	pickedShape = -1;
 	//ReadPixel(); //uncomment when you are reading from the z-buffer
-    rub = new rubik(3, this);
+    rub = new rubik(2, this);
     rub->setClockDirection(CLOCKWISE_ROTATE);
 }
 
@@ -85,6 +85,12 @@ void Game::keyListener(int key) {
             break;
         case GLFW_KEY_D:
             rub->down_wall_rotation();
+            break;
+        case GLFW_KEY_F:
+            rub->front_wall_rotation();
+            break;
+        case GLFW_KEY_B:
+            rub->back_wall_rotation();
             break;
     }
 }

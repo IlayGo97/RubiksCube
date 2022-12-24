@@ -53,3 +53,7 @@ void block::Draw(const std::vector<Shader *> shaders, const std::vector<Texture 
     Shape::Draw(shaders, textures, isPicking);
     continue_rotation_animation();
 }
+
+bool block::is_animation_going() {
+    return anim.isAnimation;
+}

@@ -12,6 +12,8 @@ public:
     void left_wall_rotation();
     void up_wall_rotation();
     void down_wall_rotation();
+    void back_wall_rotation();
+    void front_wall_rotation();
 
     void double_rotation_degree();
     void halve_rotation_degree();
