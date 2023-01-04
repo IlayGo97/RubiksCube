@@ -8,6 +8,7 @@
 #define COUNTERCLOCKWISE_ROTATE 1
 
 
+
 static void printMat(const glm::mat4 mat)
 {
 	std::cout<<" matrix:"<<std::endl;
