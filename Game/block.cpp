@@ -28,6 +28,7 @@ glm::vec3 block::rotate_around_axis(glm::vec3 axis, float degree, int clockwise)
 }
 
 void block::set_position(glm::vec3 npos) {
+    MyTranslate(npos - position, 0);
     position = npos;
 }
 

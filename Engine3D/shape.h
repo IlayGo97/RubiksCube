@@ -8,7 +8,7 @@
 
 class Shape : public MovableGLM
 {
-private:
+protected:
 
 	MeshConstructor *mesh;
 	int texID;

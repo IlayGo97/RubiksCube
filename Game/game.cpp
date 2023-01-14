@@ -31,12 +31,15 @@ void Game::Init()
 {
 	AddShader("../res/shaders/pickingShader");
 	AddShader("../res/shaders/basicShader");
+    AddTexture("../res/textures/box0.bmp",false);
+    AddTexture("../res/textures/grass.bmp",false);
 	pickedShape = 0;
     MoveCamera(0,zTranslate,10);
 	pickedShape = -1;
 	//ReadPixel(); //uncomment when you are reading from the z-buffer
-    rub = new rubik(2, this);
-    rub->setClockDirection(CLOCKWISE_ROTATE);
+    bezierCurve = new Bezier1D(3, 91, 0, this);
+    AddBezier1DShape(bezierCurve, -1);
+    SetShapeTex(shapes.size() - 1, 1);
 }
 
 void Game::Update(const glm::mat4 &MVP,const glm::mat4 &Model,const int  shaderIndx)
@@ -66,32 +69,48 @@ void Game::WhenTranslate()
 
 void Game::keyListener(int key) {
     switch(key){
+        case GLFW_KEY_DOWN:
+            bezierCurve->moveSelectedControlPointDown();
+            break;
+        case GLFW_KEY_UP:
+            bezierCurve->moveSelectedControlPointUp();
+            break;
+        case GLFW_KEY_LEFT:
+            bezierCurve->selectPreviousControlPoint();
+            break;
+        case GLFW_KEY_RIGHT:
+            bezierCurve->selectNextControlPoint();
+            break;
         case GLFW_KEY_SPACE:
-            rub->flip_rotation();
+            bezierCurve->ToggleAnimation();
             break;
-        case GLFW_KEY_Z:
-            rub->halve_rotation_degree();
-            break;
-        case GLFW_KEY_A:
-            rub->double_rotation_degree();
-            break;
+
+//        case GLFW_KEY_SPACE:
+//            rub->flip_rotation();
+//            break;
+//        case GLFW_KEY_Z:
+//            rub->halve_rotation_degree();
+//            break;
+//        case GLFW_KEY_A:
+//            rub->double_rotation_degree();
+//            break;
         case GLFW_KEY_R:
-            rub->right_wall_rotation();
+            MoveCamera(0,xTranslate, 1);
             break;
         case GLFW_KEY_L:
-            rub->left_wall_rotation();
+            MoveCamera(0,xTranslate, -1);
             break;
         case GLFW_KEY_U:
-            rub->up_wall_rotation();
+            MoveCamera(0,yTranslate, 1);
             break;
         case GLFW_KEY_D:
-            rub->down_wall_rotation();
+            MoveCamera(0,yTranslate, -1);
             break;
         case GLFW_KEY_F:
-            rub->front_wall_rotation();
+            MoveCamera(0,zTranslate, -1);
             break;
         case GLFW_KEY_B:
-            rub->back_wall_rotation();
+            MoveCamera(0,zTranslate, 1);
             break;
     }
 }
@@ -108,5 +127,16 @@ Game::~Game(void)
 }
 
 void Game::scrollCallback(double xoffset, double yoffset) {
-    MoveCamera(0,zTranslate,yoffset * -1);
+//    MoveCamera(0,zTranslate,yoffset * -1);
+    if(yoffset < 0){
+        bezierCurve->moveSelectedControlPointIn();
+    } else {
+        bezierCurve->moveSelectedControlPointOut();
+    }
+
+}
+
+void Game::AddBezier1DShape(Shape *bezier_1D_line, int parent) {
+    chainParents.push_back(parent);
+    shapes.push_back(bezier_1D_line);
 }

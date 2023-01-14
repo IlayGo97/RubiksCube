@@ -1,6 +1,7 @@
 #pragma once
 #include "scene.h"
 #include "rubik.h"
+#include "Bezier1D.h"
 
 class Game : public Scene
 {
@@ -17,7 +18,8 @@ public:
 	~Game(void);
     void keyListener(int key) override;
     void scrollCallback(double xoffset, double yoffset);
-    rubik* rub;
+    void AddBezier1DShape(Shape* bezier_1D_line, int parent);
+    Bezier1D* bezierCurve;
 
 };
 
