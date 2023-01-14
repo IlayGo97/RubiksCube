@@ -19,13 +19,13 @@ private:
 
 public:
 
+    Shape();
+
 	Shape(const Shape& shape,unsigned int mode);
 
 	Shape(const std::string& fileName,unsigned int mode);
 	
 	Shape(const int SimpleShapeType,unsigned int mode);
-
-    Shape();
 
     virtual void Draw( const std::vector<Shader*> shaders, const std::vector<Texture*> textures,bool isPicking);
 
@@ -45,6 +45,10 @@ public:
 
 	inline int GetTexture(){return texID;}
 
-	virtual ~Shape(void);
+    inline void SetMode(int mode) { this->mode = mode; }
+
+    inline void SetBezier1DMesh(const IndexedModel bezier_1D_line) { this->mesh = new MeshConstructor(bezier_1D_line, false); }
+
+    virtual ~Shape(void);
 };
 

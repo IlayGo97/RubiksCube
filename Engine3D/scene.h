@@ -62,7 +62,14 @@ public:
 	
 	inline void SetShapeTex(int shpIndx,int texIndx){shapes[shpIndx]->SetTexture(texIndx);}
 	inline void SetShapeShader(int shpIndx,int shdrIndx){shapes[shpIndx]->SetShader(shdrIndx);}
+
+    void setPickedShape(int pickedShape);
+
     std::vector<Shape*> shapes;
+
+    const std::vector<Shape *> &getShapes() const;
+
+    void setShapes(const std::vector<Shape *> &shapes);
 
 private:
 
@@ -70,6 +77,7 @@ private:
     float depth;
     int xold, yold,xrel, yrel;
     int cameraIndx;
+    int width, height;
 
 	void Clear(float r, float g, float b, float a);
 protected:

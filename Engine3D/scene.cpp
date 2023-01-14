@@ -179,6 +179,8 @@
 		cameras[0]->SetProjection(cameras[0]->GetAngle(),(float)width/height);
 		glViewport(0,0,width,height);
 		std::cout<<cameras[0]->GetRelationWH()<<std::endl;
+        this->width = width;
+        this->height = height;
 	}
 
 	float Scene::Picking(int x,int y)
@@ -277,6 +279,18 @@ int Scene::AddBlock(glm::vec3 pos) {
 
 void Scene::keyListener(int key) {
 
+}
+
+const std::vector<Shape *> &Scene::getShapes() const {
+    return shapes;
+}
+
+void Scene::setShapes(const std::vector<Shape *> &shapes) {
+    Scene::shapes = shapes;
+}
+
+void Scene::setPickedShape(int pickedShape) {
+    Scene::pickedShape = pickedShape;
 }
 
 
