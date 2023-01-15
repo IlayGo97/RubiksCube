@@ -53,7 +53,12 @@ private:
     std::vector<glm::vec3> control_points;
     std::vector<Shape*> control_points_shape;
     animation anim;
+    void moveControlPoint(int point_index, glm::vec3 delta);
 
     void TranslateSelectedPoint(glm::vec3 delta);
+
+    void fix_velosity(int segment1, int segment2, glm::vec3 delta);
+
+    void controlled_movement(int index, glm::vec3 delta);
 };
 

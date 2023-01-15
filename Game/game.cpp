@@ -84,16 +84,6 @@ void Game::keyListener(int key) {
         case GLFW_KEY_SPACE:
             bezierCurve->ToggleAnimation();
             break;
-
-//        case GLFW_KEY_SPACE:
-//            rub->flip_rotation();
-//            break;
-//        case GLFW_KEY_Z:
-//            rub->halve_rotation_degree();
-//            break;
-//        case GLFW_KEY_A:
-//            rub->double_rotation_degree();
-//            break;
         case GLFW_KEY_R:
             MoveCamera(0,xTranslate, 1);
             break;

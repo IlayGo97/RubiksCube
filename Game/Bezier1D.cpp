@@ -3,6 +3,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/compatibility.hpp"
 
+#define PI 3.1415926535
+
 Bezier1D::Bezier1D(int segNum,int res, int mode, Scene* scene, int viewport): segmentsNum(segNum), resT(res), selected_index(0), Shape()
 {
     this->mode = Scene::LINE_STRIP;
@@ -129,12 +131,83 @@ void Bezier1D::selectPreviousControlPoint() {
 }
 
 
-void Bezier1D::TranslateSelectedPoint(glm::vec3 delta) {
-    control_points[selected_index].x += delta.x;
-    control_points[selected_index].y += delta.y;
-    control_points[selected_index].z += delta.z;
-    control_points_shape[selected_index]->MyTranslate(delta, 0);
+void Bezier1D::moveControlPoint(int point_index, glm::vec3 delta) {
+    control_points[point_index].x += delta.x;
+    control_points[point_index].y += delta.y;
+    control_points[point_index].z += delta.z;
+    control_points_shape[point_index]->MyTranslate(delta, 0);
     CurveRefresh();
+}
+
+bool is_edge_point(int index){
+    return index % 3 == 0;
+}
+
+// radians
+float angle_between_vecs(glm::vec3 v1, glm::vec3 v2){
+    v1 = glm::normalize(v1);
+    v2 = glm::normalize(v2);
+    return glm::acos(glm::clamp(glm::dot(v1,v2 ), -1.f , 1.f));
+}
+
+float distance_from_pi(float angle){
+    angle = std::abs(angle);
+    return std::min((float)std::abs(angle - PI), angle);
+}
+
+void Bezier1D::controlled_movement(int index, glm::vec3 delta){
+    if (index != selected_index)
+        moveControlPoint(index, delta);
+}
+
+int get_delta_dimension(const glm::vec3& delta){
+    if (delta.x != 0.f)
+        return 0;
+    else if (delta.y != 0.f)
+        return 1;
+    else return 2;
+}
+
+void Bezier1D::fix_velosity(int segment1, int segment2, glm::vec3 delta){
+//    std::cout << "segments: " << segment1 << " " << segment2 << "\n";
+    glm::vec3 v1 = GetVelosity(segment1, 1);
+    glm::vec3 v2 = GetVelosity(segment2, 0);
+    glm::vec3 p1 = glm::vec3(GetControlPoint(segment1, 2));
+    int p1_index = segment1 * 3 + 3 - 1;
+    int p2_index = segment2 * 3 + 1;
+    int delta_dimension = get_delta_dimension(delta);
+    glm::vec3 p2 = glm::vec3(GetControlPoint(segment2,  1));
+    float angle = angle_between_vecs(v1,v2);
+//    std::cout << angle << "\n";
+    int tries = 0;
+    glm::vec3 abs_delta = glm::abs(delta);
+    while (distance_from_pi(angle) > 0.01f and tries < 50){
+        tries++;
+        if (glm::distance(p1[delta_dimension], p2[delta_dimension]) < 0.01f) {
+            controlled_movement(p1_index, delta);
+            controlled_movement(p2_index, delta);
+        }else if (p1_index == selected_index){
+            controlled_movement(p2_index, -delta);
+        } else if (p2_index == selected_index){
+            controlled_movement(p1_index, -delta);
+        }
+        else if (p1.y < p2.y){
+            controlled_movement(p1_index, -abs_delta);
+            controlled_movement(p2_index, abs_delta);
+        } else {
+            controlled_movement(p1_index, abs_delta);
+            controlled_movement(p2_index, -abs_delta);
+        }
+        v1 = GetVelosity(segment1, 1);
+        v2 = GetVelosity(segment2, 0);
+        angle = angle_between_vecs(v1,v2);
+    }
+}
+
+void Bezier1D::TranslateSelectedPoint(glm::vec3 delta) {
+    moveControlPoint(selected_index, delta);
+    for (int seg = 0; seg <= segmentsNum - 2; seg ++ )
+        fix_velosity(seg, seg + 1, delta);
 }
 
 
