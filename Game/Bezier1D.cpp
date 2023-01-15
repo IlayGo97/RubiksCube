@@ -226,8 +226,14 @@ void Bezier1D::TranslateSelectedPoint(glm::vec3 delta) {
         }
         if (selected_index % 3 == 1) {
             RotatePoint(selected_index, angle, control_points[selected_index - 1]);
+            if (continuity_state && selected_index != 1){
+                RotatePoint(selected_index - 2, angle, control_points[selected_index - 1]);
+            }
         } else if (selected_index % 3 == 2) {
             RotatePoint(selected_index, angle, control_points[selected_index + 1]);
+            if (continuity_state && selected_index != control_points.size() - 2){
+                RotatePoint(selected_index + 2, angle, control_points[selected_index + 1]);
+            }
         }
     }
 //    for (int seg = 0; seg <= segmentsNum - 2; seg ++ )
@@ -326,5 +332,5 @@ void Bezier1D::fixCurve() {
 }
 
 void Bezier1D::toggle_continuity_state() {
-
+    continuity_state = !continuity_state;
 }

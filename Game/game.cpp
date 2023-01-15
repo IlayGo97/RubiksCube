@@ -84,6 +84,9 @@ void Game::keyListener(int key) {
         case GLFW_KEY_SPACE:
             bezierCurve->ToggleAnimation();
             break;
+        case GLFW_KEY_C:
+            bezierCurve->toggle_continuity_state();
+            break;
         case GLFW_KEY_R:
             MoveCamera(0,xTranslate, 1);
             break;
