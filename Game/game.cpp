@@ -38,8 +38,6 @@ void Game::Init()
 	pickedShape = -1;
 	//ReadPixel(); //uncomment when you are reading from the z-buffer
     bezierCurve = new Bezier1D(3, 91, 0, this);
-    AddBezier1DShape(bezierCurve, -1);
-    SetShapeTex(shapes.size() - 1, 1);
 }
 
 void Game::Update(const glm::mat4 &MVP,const glm::mat4 &Model,const int  shaderIndx)
@@ -87,6 +85,22 @@ void Game::keyListener(int key) {
         case GLFW_KEY_C:
             bezierCurve->toggle_continuity_state();
             break;
+        case GLFW_KEY_2:
+            bezierCurve->Restart(2, this);
+            break;
+        case GLFW_KEY_3:
+            bezierCurve->Restart(3, this);
+            break;
+        case GLFW_KEY_4:
+            bezierCurve->Restart(4, this);
+            break;
+        case GLFW_KEY_5:
+            bezierCurve->Restart(5, this);
+            break;
+        case GLFW_KEY_6:
+            bezierCurve->Restart(6, this);
+            break;
+
         case GLFW_KEY_R:
             MoveCamera(0,xTranslate, 1);
             break;

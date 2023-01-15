@@ -46,6 +46,7 @@ public:
     void selectNextControlPoint();
     void selectPreviousControlPoint();
     void fixCurve();
+    void Restart(int segNum, Scene *scene);
     void toggle_continuity_state();
 
 private:
@@ -55,14 +56,12 @@ private:
     std::vector<Shape*> control_points_shape;
     animation anim;
     bool continuity_state = false;
+
     void moveControlPoint(int point_index, glm::vec3 delta);
-
     void TranslateSelectedPoint(glm::vec3 delta);
-
     void fix_velosity(int segment1, int segment2, glm::vec3 delta);
-
     void controlled_movement(int index, glm::vec3 delta);
-
     void RotatePoint(int index, float angle, glm::vec3 axis);
+    void makeQuarterCircles();
 };
 

@@ -2,24 +2,37 @@
 #include "Bezier1D.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/compatibility.hpp"
+#include "game.h"
 
 #define PI 3.1415926535
 
 Bezier1D::Bezier1D(int segNum,int res, int mode, Scene* scene, int viewport): segmentsNum(segNum), resT(res), selected_index(0), Shape()
 {
     this->mode = Scene::LINE_STRIP;
+    Restart(segNum, scene);
+}
+
+void Bezier1D::Restart(int segNum, Scene *scene) {
+    scene->shapes.clear();
+    control_points.clear();
+    control_points_shape.clear();
+    segmentsNum = segNum;
+    resT = segNum * 30 + 1;
     int num_of_control_points = segNum * 3 + 1;
     for (int i = 0; i < num_of_control_points; i ++){
-        this->control_points.emplace_back(-(num_of_control_points) + 2 * i, 3.f ,0.f);
+        control_points.emplace_back(-(num_of_control_points) + 2 * i, 3.f , 0.f);
         int curr_control_point_index = scene->shapes.size();
         scene->AddShape(scene->Octahedron, -1, scene->TRIANGLES);
         scene->SetShapeTex(curr_control_point_index, 0);
-        this->control_points_shape.push_back(scene->shapes[curr_control_point_index]);
+        control_points_shape.push_back(scene->shapes[curr_control_point_index]);
         control_points_shape[curr_control_point_index]->MyTranslate(control_points[curr_control_point_index], 0);
-        control_points_shape[curr_control_point_index]->MyScale(glm::vec3(0.5,0.5,0.5));
+        control_points_shape[curr_control_point_index]->MyScale(glm::vec3(0.5, 0.5, 0.5));
     }
     SetBezier1DMesh(GetLine());
-    blck = (block*)scene->shapes[scene->AddBlock(glm::vec3(GetControlPoint(0,0)))];
+    makeQuarterCircles();
+    blck = (block*)scene->shapes[scene->AddBlock(glm::vec3(GetControlPoint(0, 0)))];
+    ((Game*)scene)->AddBezier1DShape(this, -1);
+    scene->SetShapeTex(scene->shapes.size() - 1, 1);
 }
 
 IndexedModel Bezier1D::GetLine() {
@@ -333,4 +346,39 @@ void Bezier1D::fixCurve() {
 
 void Bezier1D::toggle_continuity_state() {
     continuity_state = !continuity_state;
+}
+
+glm::vec3 get_delta(glm::vec3 original, glm::vec3 destination){
+    return destination - original;
+}
+
+// according to: https://spencermortensen.com/articles/bezier-circle/
+void Bezier1D::makeQuarterCircles() {
+    float a = 1.00005519f * 2.5f;
+    float b = 0.55342686f * 2.5f;
+    float c = 0.99873585 * 2.5f;
+    // first half:
+    glm::vec3 p0, p1, p2, p3;
+    p2 = control_points[2];
+    p3 = control_points[3];
+    moveControlPoint(2, get_delta(p2, p3 + glm::vec3(0-b, c - a ,0)));
+    p1 = control_points[1];
+    p2 = control_points[2];
+    moveControlPoint(1, get_delta(p1, p2 + glm::vec3(b - c, b - c ,0)));
+    p0 = control_points[0];
+    p1 = control_points[1];
+    moveControlPoint(0, get_delta(p0, p1 + glm::vec3(c - a, 0 - b ,0)));
+
+
+    // second half:
+    p0 = control_points[control_points.size() - 4];
+    p1 = control_points[control_points.size() - 3];
+    moveControlPoint(control_points.size() - 3, get_delta(p1, p0 + glm::vec3(b - 0, c - a ,0)));
+    p1 = control_points[control_points.size() - 3];
+    p2 = control_points[control_points.size() - 2];
+    moveControlPoint(control_points.size() - 2, get_delta(p2, p1 + glm::vec3(c - b, b - c ,0)));
+    p2 = control_points[control_points.size() - 2];
+    p3 = control_points[control_points.size() - 1];
+    moveControlPoint(control_points.size() - 1, get_delta(p3, p2 + glm::vec3(a - c, 0 - b ,0)));
+//    moveControlPoint(0, glm::vec3(1.00005519, -1.00005519f, 0));
 }
