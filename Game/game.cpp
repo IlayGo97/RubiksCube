@@ -105,6 +105,14 @@ void Game::keyListener(int key) {
     }
 }
 
+void Game::MouseProccessing(int button) {
+    switch (button){
+        case GLFW_MOUSE_BUTTON_LEFT:
+            bezierCurve->fixCurve();
+            break;
+    }
+}
+
 void Game::Motion()
 {
 	if(isActive)

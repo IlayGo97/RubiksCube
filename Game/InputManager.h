@@ -8,6 +8,7 @@
 		if(action == GLFW_PRESS )
 		{
 			Game *scn = (Game*)glfwGetWindowUserPointer(window);
+
 			double x2,y2;
 			glfwGetCursorPos(window,&x2,&y2);
 			scn->Picking((int)x2,(int)y2);

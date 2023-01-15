@@ -204,10 +204,34 @@ void Bezier1D::fix_velosity(int segment1, int segment2, glm::vec3 delta){
     }
 }
 
+void Bezier1D::RotatePoint(int index, float angle, glm::vec3 axis) {
+    glm::mat4 rotation_matrix = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0,0,1));
+    glm::vec3 new_point = glm::vec3(rotation_matrix * glm::vec4(control_points[index] - axis,1.0f));
+    moveControlPoint(index, control_points[index] - new_point - axis);
+}
+
 void Bezier1D::TranslateSelectedPoint(glm::vec3 delta) {
-    moveControlPoint(selected_index, delta);
-    for (int seg = 0; seg <= segmentsNum - 2; seg ++ )
-        fix_velosity(seg, seg + 1, delta);
+    if (is_edge_point(selected_index)) {
+        moveControlPoint(selected_index, delta);
+        if (selected_index != 0) {
+            moveControlPoint(selected_index - 1, delta);
+        }
+        if (selected_index != control_points.size() - 1){
+            moveControlPoint(selected_index + 1, delta);
+        }
+    } else {
+        int angle = 1;
+        if (delta.y > 0) {
+            angle = angle * -1;
+        }
+        if (selected_index % 3 == 1) {
+            RotatePoint(selected_index, angle, control_points[selected_index - 1]);
+        } else if (selected_index % 3 == 2) {
+            RotatePoint(selected_index, angle, control_points[selected_index + 1]);
+        }
+    }
+//    for (int seg = 0; seg <= segmentsNum - 2; seg ++ )
+//        fix_velosity(seg, seg + 1, delta);
 }
 
 
@@ -286,4 +310,21 @@ void Bezier1D::ToggleAnimation() {
 void Bezier1D::Draw(const std::vector<Shader *> shaders, const std::vector<Texture *> textures, bool isPicking) {
     Shape::Draw(shaders, textures, isPicking);
     continueAnimation();
+}
+
+void Bezier1D::fixCurve() {
+    if (!is_edge_point(selected_index) || selected_index == 0 || selected_index == control_points.size() - 1) {
+        return;
+    }
+    glm::vec3 p0 = control_points[selected_index];
+    glm::vec3 p1 = control_points[selected_index + 1];
+    glm::vec3 p2 = control_points[selected_index - 1];
+    glm::vec3 p0p1 =  glm::normalize(p0 - p1);
+    float t = glm::distance(p2, p0);
+    glm::vec3 p2tag = p0p1 * t + p0;
+    moveControlPoint(selected_index - 1, p2tag - p2);
+}
+
+void Bezier1D::toggle_continuity_state() {
+
 }

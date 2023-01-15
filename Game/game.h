@@ -12,6 +12,7 @@ public:
 	void Init();
 	void Update(const glm::mat4 &MVP,const glm::mat4 &Model,const int  shaderIndx);
 	void ControlPointUpdate();
+    virtual void MouseProccessing(int button) override;
 	void WhenRotate();
 	void WhenTranslate();
 	void Motion();

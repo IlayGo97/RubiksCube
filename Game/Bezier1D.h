@@ -36,8 +36,8 @@ public:
 	inline int GetSegmentsNum() const { return segmentsNum; }
     void continueAnimation();
     void CurveRefresh();
-	~Bezier1D(void);
     void ToggleAnimation();
+    ~Bezier1D(void);
 
     void moveSelectedControlPointUp();
     void moveSelectedControlPointDown();
@@ -45,7 +45,8 @@ public:
     void moveSelectedControlPointOut();
     void selectNextControlPoint();
     void selectPreviousControlPoint();
-
+    void fixCurve();
+    void toggle_continuity_state();
 
 private:
     block* blck;
@@ -53,6 +54,7 @@ private:
     std::vector<glm::vec3> control_points;
     std::vector<Shape*> control_points_shape;
     animation anim;
+    bool continuity_state = false;
     void moveControlPoint(int point_index, glm::vec3 delta);
 
     void TranslateSelectedPoint(glm::vec3 delta);
@@ -60,5 +62,7 @@ private:
     void fix_velosity(int segment1, int segment2, glm::vec3 delta);
 
     void controlled_movement(int index, glm::vec3 delta);
+
+    void RotatePoint(int index, float angle, glm::vec3 axis);
 };
 

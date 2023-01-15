@@ -57,7 +57,7 @@ public:
 	void UnhideShape(int shpIndx);
     virtual void keyListener(int key);
 	void UpdatePosition(float xpos, float ypos);
-	void MouseProccessing(int button);
+	virtual void MouseProccessing(int button);
 	bool inline IsActive() const { return isActive;} 
 	
 	inline void SetShapeTex(int shpIndx,int texIndx){shapes[shpIndx]->SetTexture(texIndx);}
