@@ -127,6 +127,10 @@ void Game::MouseProccessing(int button) {
         case GLFW_MOUSE_BUTTON_LEFT:
             bezierCurve->fixCurve();
             break;
+        case GLFW_MOUSE_BUTTON_RIGHT:
+            bezierCurve->TranslateSelectedPoint(glm::vec3(-xrel/20.0f,yrel/20.0f,0));
+            break;
+
     }
 }
 

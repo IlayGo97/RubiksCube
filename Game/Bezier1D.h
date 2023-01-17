@@ -47,18 +47,17 @@ public:
     void selectPreviousControlPoint();
     void fixCurve();
     void Restart(int segNum, Scene *scene);
+    void TranslateSelectedPoint(glm::vec3 delta);
     void toggle_continuity_state();
-
 private:
     block* blck;
     int selected_index;
     std::vector<glm::vec3> control_points;
     std::vector<Shape*> control_points_shape;
     animation anim;
-    bool continuity_state = false;
 
+    bool continuity_state = false;
     void moveControlPoint(int point_index, glm::vec3 delta);
-    void TranslateSelectedPoint(glm::vec3 delta);
     void fix_velosity(int segment1, int segment2, glm::vec3 delta);
     void controlled_movement(int index, glm::vec3 delta);
     void RotatePoint(int index, float angle, glm::vec3 axis);
