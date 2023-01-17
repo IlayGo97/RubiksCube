@@ -63,5 +63,7 @@ private:
     void controlled_movement(int index, glm::vec3 delta);
     void RotatePoint(int index, float angle, glm::vec3 axis);
     void makeQuarterCircles();
+
+    void set_block_rotation(int segment, float t);
 };
 

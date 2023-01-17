@@ -33,6 +33,7 @@ void Bezier1D::Restart(int segNum, Scene *scene) {
     blck = (block*)scene->shapes[scene->AddBlock(glm::vec3(GetControlPoint(0, 0)))];
     ((Game*)scene)->AddBezier1DShape(this, -1);
     scene->SetShapeTex(scene->shapes.size() - 1, 1);
+    set_block_rotation(0,0);
 }
 
 IndexedModel Bezier1D::GetLine() {
@@ -283,6 +284,18 @@ glm::mat4 get_rotation_matrix(glm::vec3 v1, glm::vec3 v2){
     return glm::rotate(glm::mat4(1.0f), angle, axis);
 }
 
+void Bezier1D::set_block_rotation(int segment, float t){
+    glm::mat4 new_rotation = glm::mat4(1);
+    glm::vec3 v = glm::normalize(GetVelosity(segment, t));
+    glm::vec3 y = glm::normalize(glm::cross(v, glm::vec3(0, 0, 1)));
+    glm::vec3 z = glm::cross(v, y);
+    glm::mat4 rotation_matrix = glm::mat4(v.x, y.x, z.x, 0,
+                                          v.y, y.y, z.y, 0,
+                                          v.z, y.z, z.z, 0,
+                                          0,   0,   0,   1);
+    blck->setRot(glm::mat4(1) * rotation_matrix);
+}
+
 void Bezier1D::continueAnimation() {
     if (!anim.animating)
         return;
@@ -309,13 +322,7 @@ void Bezier1D::continueAnimation() {
         }
     }
     glm::vec3 newPosition = glm::vec3(GetPointOnCurve(new_segment, new_t));
-//    glm::vec3 v1 = glm::normalize(GetVelosity(anim.segment, anim.cube_t));
-//    glm::vec3 v2 = glm::normalize(GetVelosity(new_segment, new_t));
-//    float angle = glm::dot(v1,v2);
-//    glm::vec3 normal = glm::cross(v1, v2);
-//    std::cout << "angle: " << angle << "\n";
-//    std::cout << "normal.x: " << normal.x << "\n";
-//    blck->MyRotate(angle/111.f, normal, 0);
+    set_block_rotation(new_segment, new_t);
     blck->set_position(newPosition);
     anim.segment = new_segment;
     anim.cube_t = new_t;
